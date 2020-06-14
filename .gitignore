@@ -2,4 +2,5 @@
 /third-party/boost_1_63_0/*
 /build/*
 /Release/*
-/Debug/*
+client_overlay/x64/Debug/*
+.vs
