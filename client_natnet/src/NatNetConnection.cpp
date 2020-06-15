@@ -78,7 +78,7 @@ void NATNET_CALLCONV MessageHandler(Verbosity msgType, const char* msg)
 
 void NATNET_CALLCONV DataHandler(sFrameOfMocapData* data, void* pUserData)
 {
-	printf("received data");
+	//printf("received data");
 	NatNetConnection::Get()->ReceivedData(data, pUserData);
 }
 
