@@ -29,28 +29,41 @@ void printHelp(int argc, const char* argv[]) {
 
 int main(int argc, const char* argv[]) {
 
-	std::cout << "DaruTrack 1" << std::endl;
+	std::cout << "DaruTrack 2" << std::endl;
 
 	// Trex: 1ere connection à Motive
 	NatNetConnection::Get()->Init(/* server: */"127.0.0.1", /* client: */"127.0.0.1", ConnectionType_Multicast);
 
-	int c;
-	bool bExit = false;
-
-	while (c = _getch())
-	{
-		switch (c)
-		{
-		case 'q':
-			bExit = true;
-			break;
-		default:
-			break;
-		}
-		if (bExit)
-			break;
+	vr::EVRInitError peError;
+	vr::VR_Init(&peError, vr::VRApplication_Overlay);
+	if (peError != vr::VRInitError_None) {
+		std::cout << "OpenVR Error: " << vr::VR_GetVRInitErrorAsEnglishDescription(peError) << std::endl;
+		exit(-2);
 	}
 
+	vrinputemulator::VRInputEmulator inputEmulator;
+	try {
+		inputEmulator.connect();
+	}
+	catch (std::exception& e) {
+		std::cout << "Caught exception: " << e.what() << std::endl;
+		exit(-3);
+	}
+
+	vr::VREvent_t vrevent;
+	bool stopLoop = false;
+	while (!stopLoop) {
+		if (vr::VRSystem()->PollNextEvent(&vrevent, sizeof(vr::VREvent_t))) {
+			if (vrevent.eventType == vr::VREvent_Quit) {
+				stopLoop = true;
+			}
+		}
+		else {
+			std::this_thread::sleep_for(std::chrono::milliseconds(10));
+		}
+	}
+
+	vr::VR_Shutdown();
 
 	return 0;
 }

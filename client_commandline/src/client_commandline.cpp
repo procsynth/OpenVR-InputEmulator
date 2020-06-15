@@ -452,6 +452,38 @@ void setDeviceRotation(int argc, const char* argv[]) {
 	inputEmulator.setVirtualDevicePose(deviceId, pose);
 }
 
+void setDevicePose(int argc, const char* argv[]) {
+	if (argc > 2 && std::strcmp(argv[2], "help") == 0) {
+		std::stringstream ss;
+		ss << "Usage: client_commandline.exe setdeviceposition <virtualId> <x> <y> <z> <qw> <qx> <qy> <qz>";
+		throw std::runtime_error(ss.str());
+	}
+	else if (argc < 10) {
+		throw std::runtime_error("Error: Too few arguments.");
+	}
+	uint32_t deviceId = std::atoi(argv[2]);
+	float x = (float)std::atof(argv[3]);
+	float y = (float)std::atof(argv[4]);
+	float z = (float)std::atof(argv[5]);
+	float qw = (float)std::atof(argv[6]);
+	float qx = (float)std::atof(argv[7]);
+	float qy = (float)std::atof(argv[8]);
+	float qz = (float)std::atof(argv[9]);
+	vrinputemulator::VRInputEmulator inputEmulator;
+	inputEmulator.connect();
+	auto pose = inputEmulator.getVirtualDevicePose(deviceId);
+	pose.vecPosition[0] = x;
+	pose.vecPosition[1] = y;
+	pose.vecPosition[2] = z;
+	pose.qRotation.w = qw;
+	pose.qRotation.x = qx;
+	pose.qRotation.y = qy;
+	pose.qRotation.z = qz;
+	pose.poseIsValid = true;
+	pose.result = vr::TrackingResult_Running_OK;
+	inputEmulator.setVirtualDevicePose(deviceId, pose);
+}
+
 void deviceOffsets(int argc, const char * argv[]) {
 	if (argc > 2 && std::strcmp(argv[2], "help") == 0) {
 		std::stringstream ss;
