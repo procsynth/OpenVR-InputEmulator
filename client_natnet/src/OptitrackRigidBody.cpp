@@ -33,6 +33,10 @@ void OptitrackRigidBody::ReceivedData(sFrameOfMocapData* data, void* pUserData)
 	//last_time = now;
 	pose.poseTimeOffset = 0;
 
+	pose.willDriftInYaw = false;
+	pose.shouldApplyHeadModel = false;
+	pose.qDriverFromHeadRotation.w = pose.qWorldFromDriverRotation.w = pose.qRotation.w = 1.0;
+
 	pose.deviceIsConnected = true;
 	pose.poseIsValid = true;
 	pose.result = vr::ETrackingResult::TrackingResult_Running_OK;
