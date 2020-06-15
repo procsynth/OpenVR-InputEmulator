@@ -8,7 +8,7 @@
 
 int main(int argc, const char* argv[]) {
 
-	std::cout << "DaruTrack 4" << std::endl;
+	std::cout << "DaruTrack 5" << std::endl;
 
 
 	vr::EVRInitError peError;
@@ -29,8 +29,8 @@ int main(int argc, const char* argv[]) {
 
 	// Trex: 1ere connection à Motive
 	NatNetConnection::Get()->Init(/* server: */"127.0.0.1", /* client: */"127.0.0.1", ConnectionType_Multicast);
-	NatNetConnection::Get()->AddRigidBody(new OptitrackRigidBody("left_controller", 2, &inputEmulator));
-	NatNetConnection::Get()->AddRigidBody(new OptitrackRigidBody("right_controller", 3, &inputEmulator));
+	NatNetConnection::Get()->AddRigidBody(new OptitrackRigidBody("controller01", 2, &inputEmulator));
+	NatNetConnection::Get()->AddRigidBody(new OptitrackRigidBody("controller02", 3, &inputEmulator));
 
 	vr::VREvent_t vrevent;
 	bool stopLoop = false;

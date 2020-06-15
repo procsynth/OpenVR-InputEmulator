@@ -9,6 +9,8 @@
 
 int main() {
 
+	std::cout << "Leap Motion ctrl" << std::endl;
+
 	Leap::Controller leapController;
 	leapController.setPolicy(Leap::Controller::POLICY_OPTIMIZE_HMD);
 	leapController.setPolicy(Leap::Controller::POLICY_BACKGROUND_FRAMES);
