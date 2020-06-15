@@ -11,7 +11,7 @@ protected:
 	int rigidbody_id;
 	double last_time;
 	int virtualId;
-
+	bool readyFlag = false;
 	vr::DriverPose_t pose;
 	vr::VRControllerState_t state;
 public:
