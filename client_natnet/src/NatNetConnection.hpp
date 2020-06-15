@@ -11,7 +11,7 @@
 #include <NatNetCAPI.h>
 #include <NatNetClient.h>
 #include <mutex>
-
+#include "OptitrackRigidBody.h"
 
 void NATNET_CALLCONV MessageHandler(Verbosity msgType, const char* msg);
 void NATNET_CALLCONV DataHandler(sFrameOfMocapData* data, void* pUserData);
@@ -25,6 +25,7 @@ class NatNetConnection
 protected:
 	mutable std::mutex mtx;
 	int ConnectClient();
+	std::vector<OptitrackRigidBody*> rigidbodies;
 
 	NatNetConnection();
 	virtual ~NatNetConnection();
@@ -32,9 +33,7 @@ protected:
 	NatNetClient* g_pClient = NULL;
 	FILE* g_outputFile;
 
-	std::vector< sNatNetDiscoveredServer > g_discoveredServers;
 	sNatNetClientConnectParams g_connectParams;
-	char g_discoveredMulticastGroupAddr[kNatNetIpv4AddrStrLenMax] = NATNET_DEFAULT_MULTICAST_ADDRESS;
 	int g_analogSamplesPerMocapFrame = 0;
 	sServerDescription g_serverDescription;
 	sFrameOfMocapData _Frame;
@@ -44,6 +43,7 @@ public:
 
 	void ReceivedData(sFrameOfMocapData* data, void* pUserData);
 	void Init(const char* serverAddress, const char* localAddress, ConnectionType connection);
+	void AddRigidBody(OptitrackRigidBody *rigidbody);
 
 	static NatNetConnection* Get()
 	{

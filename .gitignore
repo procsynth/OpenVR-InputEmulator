@@ -4,3 +4,6 @@
 /Release/*
 client_overlay/x64/Debug/*
 .vs
+/driver_vrinputemulator/bin/x64/*.pdb
+/third-party/boost_1_63_0
+/third-party/boost_1_65_1

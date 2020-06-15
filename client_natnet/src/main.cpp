@@ -31,8 +31,26 @@ int main(int argc, const char* argv[]) {
 
 	std::cout << "DaruTrack 2" << std::endl;
 
+
+	vr::EVRInitError peError;
+	vr::VR_Init(&peError, vr::VRApplication_Overlay);
+	if (peError != vr::VRInitError_None) {
+		std::cout << "OpenVR Error: " << vr::VR_GetVRInitErrorAsEnglishDescription(peError) << std::endl;
+		exit(-2);
+	}
+
+	vrinputemulator::VRInputEmulator inputEmulator;
+	try {
+		inputEmulator.connect();
+	}
+	catch (std::exception& e) {
+		std::cout << "Caught exception: " << e.what() << std::endl;
+		exit(-3);
+	}
+
 	// Trex: 1ere connection à Motive
 	NatNetConnection::Get()->Init(/* server: */"127.0.0.1", /* client: */"127.0.0.1", ConnectionType_Multicast);
+	NatNetConnection::Get()->AddRigidBody(new OptitrackRigidBody("left_controller", 1, &inputEmulator));
 
 	vr::EVRInitError peError;
 	vr::VR_Init(&peError, vr::VRApplication_Overlay);
