@@ -123,11 +123,19 @@ sFrameOfMocapData NatNetConnection::Frame()
 	return copy;
 }
 
+void NatNetConnection::AddRigidBody(OptitrackRigidBody* rigidbody)
+{
+	rigidbodies.push_back(rigidbody);
+}
+
 void NatNetConnection::ReceivedData(sFrameOfMocapData* data, void* pUserData)
 {
 	mtx.lock();
 	this->_Frame = (*data);
 	mtx.unlock();
 
-	return;
+	for (auto& body : rigidbodies)
+	{
+		body->ReceivedData(data, pUserData);
+	}
 }
