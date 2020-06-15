@@ -1,6 +1,8 @@
 #include "OptitrackRigidBody.h"
 #include "openvr_math.h"
 
+#include <iostream>
+
 OptitrackRigidBody::OptitrackRigidBody(const char* serial, int rigidbody_id, vrinputemulator::VRInputEmulator* inputEmulator) :
 	serial(serial), rigidbody_id(rigidbody_id), inputEmulator(inputEmulator)
 {
@@ -17,12 +19,14 @@ void OptitrackRigidBody::ReceivedData(sFrameOfMocapData* data, void* pUserData)
 	// pas sur de ce code
 	auto now = (double)std::chrono::duration_cast <std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 	pose.poseTimeOffset = (last_time - now) / 1000;
+	auto framerate = -1 / pose.poseTimeOffset;
 	last_time = now;
 	//pose.poseTimeOffset = 0;
 
 	pose.willDriftInYaw = false;
 	pose.shouldApplyHeadModel = false;
 	//pose.qDriverFromHeadRotation.w = pose.qWorldFromDriverRotation.w = pose.qRotation.w = 1.0;
+	pose.qWorldFromDriverRotation = { 1, 0, 0, 0 };
 
 	pose.deviceIsConnected = true;
 	pose.poseIsValid = true;
@@ -37,20 +41,28 @@ void OptitrackRigidBody::ReceivedData(sFrameOfMocapData* data, void* pUserData)
 		}
 	}
 	sRigidBodyData r_data = data->RigidBodies[i];
-	
-	pose.vecVelocity[0] = (r_data.x - pose.vecPosition[0])/100;
-	pose.vecVelocity[1] = (r_data.y - pose.vecPosition[1])/100;
-	pose.vecVelocity[2] = (r_data.z - pose.vecPosition[2])/100;
+
+
+	//std::cout << pose.vecVelocity[0] << "-" << pose.vecVelocity[1] << "-" << pose.vecVelocity[2] << std::endl << std::endl;
 
 	vr::TrackedDevicePose_t hmdPose;
 	vr::VRSystem()->GetDeviceToAbsoluteTrackingPose(vr::TrackingUniverseRawAndUncalibrated, 0, &hmdPose, 1);
 
 	if (hmdPose.bPoseIsValid) {
-		pose.vecPosition[0] = r_data.x - hmdPose.mDeviceToAbsoluteTracking.m[0][3];
-		pose.vecPosition[1] = r_data.y - hmdPose.mDeviceToAbsoluteTracking.m[1][3];
-		pose.vecPosition[2] = r_data.z - hmdPose.mDeviceToAbsoluteTracking.m[2][3];
 
-		pose.qWorldFromDriverRotation = vrmath::quaternionFromRotationMatrix(hmdPose.mDeviceToAbsoluteTracking);
+		pose.vecVelocity[0] = (((double)r_data.x - hmdPose.mDeviceToAbsoluteTracking.m[0][3]) - (double)pose.vecPosition[0])*framerate;
+		pose.vecVelocity[1] = (((double)r_data.y - hmdPose.mDeviceToAbsoluteTracking.m[1][3]) - (double)pose.vecPosition[1])*framerate;
+		pose.vecVelocity[2] = (((double)r_data.z - hmdPose.mDeviceToAbsoluteTracking.m[2][3]) - (double)pose.vecPosition[2])*framerate;
+
+		pose.vecPosition[0] = (double)r_data.x - hmdPose.mDeviceToAbsoluteTracking.m[0][3];
+		pose.vecPosition[1] = (double)r_data.y - hmdPose.mDeviceToAbsoluteTracking.m[1][3];
+		pose.vecPosition[2] = (double)r_data.z - hmdPose.mDeviceToAbsoluteTracking.m[2][3];
+
+
+		std::cout << "POS: " << pose.vecPosition[0] << "-" << pose.vecPosition[1] << "-" << pose.vecPosition[2] << std::endl << std::endl;
+		std::cout << "VEL: " << pose.vecVelocity[0] << "-" << pose.vecVelocity[1] << "-" << pose.vecVelocity[2] << std::endl << std::endl;
+
+		//pose.qWorldFromDriverRotation = vrmath::quaternionFromRotationMatrix(hmdPose.mDeviceToAbsoluteTracking);
 		pose.vecWorldFromDriverTranslation[0] = hmdPose.mDeviceToAbsoluteTracking.m[0][3];
 		pose.vecWorldFromDriverTranslation[1] = hmdPose.mDeviceToAbsoluteTracking.m[1][3];
 		pose.vecWorldFromDriverTranslation[2] = hmdPose.mDeviceToAbsoluteTracking.m[2][3];
@@ -81,6 +93,22 @@ void OptitrackRigidBody::ReceivedData(sFrameOfMocapData* data, void* pUserData)
 		inputEmulator->publishVirtualDevice(virtualId);
 
 		readyFlag = true;
+	}
+
+	if (0.6 > 0.4) {
+		state.rAxis[1] = { (float)std::min(1.0, std::max(0.0, (0.6 - 0.4) / 0.6)), 0.0f };
+		state.ulButtonTouched |= vr::ButtonMaskFromId(vr::k_EButton_Axis1);
+		if (state.rAxis[1].x >= 0.95) {
+			state.ulButtonPressed |= vr::ButtonMaskFromId(vr::k_EButton_Axis1);
+		}
+		else {
+			state.ulButtonPressed &= ~vr::ButtonMaskFromId(vr::k_EButton_Axis1);
+		}
+	}
+	else {
+		state.rAxis[1] = { 0.0f, 0.0f };
+		state.ulButtonPressed &= ~vr::ButtonMaskFromId(vr::k_EButton_Axis1);
+		state.ulButtonTouched &= ~vr::ButtonMaskFromId(vr::k_EButton_Axis1);
 	}
 
 	inputEmulator->setVirtualDevicePose(virtualId, pose);

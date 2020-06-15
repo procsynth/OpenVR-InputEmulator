@@ -8,7 +8,7 @@
 
 int main(int argc, const char* argv[]) {
 
-	std::cout << "DaruTrack 6" << std::endl;
+	std::cout << "DaruTrack 9" << std::endl;
 
 
 	vr::EVRInitError peError;
