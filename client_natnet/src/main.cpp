@@ -29,8 +29,16 @@ int main(int argc, const char* argv[]) {
 
 	// Trex: 1ere connection à Motive
 	NatNetConnection::Get()->Init(/* server: */"127.0.0.1", /* client: */"127.0.0.1", ConnectionType_Multicast);
-	NatNetConnection::Get()->AddRigidBody(new OptitrackRigidBody("leapmotion01", 2, &inputEmulator));
-	NatNetConnection::Get()->AddRigidBody(new OptitrackRigidBody("leapmotion02", 3, &inputEmulator));
+
+	
+	NatNetConnection::Get()->AddRigidBody(new OptitrackRigidBody("2_LEFT", 2, &inputEmulator));
+	NatNetConnection::Get()->AddRigidBody(new OptitrackRigidBody("3_RIGHT", 3, &inputEmulator));
+
+	NatNetConnection::Get()->AddRigidBody(new OptitrackRigidBody("4_WAIST", 4, &inputEmulator));
+
+	NatNetConnection::Get()->AddRigidBody(new OptitrackRigidBody("5_FOOT_LEFT", 5, &inputEmulator));
+	NatNetConnection::Get()->AddRigidBody(new OptitrackRigidBody("6_FOOT_RIGHT", 6, &inputEmulator));
+
 
 	vr::VREvent_t vrevent;
 	bool stopLoop = false;
