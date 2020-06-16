@@ -7,3 +7,9 @@ client_overlay/x64/Debug/*
 /driver_vrinputemulator/bin/x64/*.pdb
 /third-party/boost_1_63_0
 /third-party/boost_1_65_1
+*.exe
+*.ilk
+*.pdb
+*.exe
+*.ilk
+*.ilk
