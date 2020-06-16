@@ -44,6 +44,7 @@ public:
 	void ReceivedData(sFrameOfMocapData* data, void* pUserData);
 	void Init(const char* serverAddress, const char* localAddress, ConnectionType connection);
 	void AddRigidBody(OptitrackRigidBody *rigidbody);
+	void UpdateRigidBodies();
 
 	static NatNetConnection* Get()
 	{
