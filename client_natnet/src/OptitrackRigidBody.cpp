@@ -31,7 +31,7 @@ void OptitrackRigidBody::ReceivedData(sFrameOfMocapData* data, void* pUserData)
 
 	pose.deviceIsConnected = true;
 
-	bool device_is_ctrl = rigidbody_id < 4; // <4
+	bool device_is_ctrl = rigidbody_id < 1; // <4
 
 	int i = 0;
 	for (i = 0; i < data->nRigidBodies; i++)

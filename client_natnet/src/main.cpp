@@ -32,10 +32,10 @@ int main(int argc, const char* argv[]) {
 
 	NatNetConnection::Get()->AddRigidBody(new OptitrackRigidBody("2_LEFT_HAND_opti", 2, &inputEmulator));
 	NatNetConnection::Get()->AddRigidBody(new OptitrackRigidBody("3_RIGHT_HAND_opti", 3, &inputEmulator));
-	/*
+	
 	NatNetConnection::Get()->AddRigidBody(new OptitrackRigidBody("4_WAIST", 4, &inputEmulator));
 	NatNetConnection::Get()->AddRigidBody(new OptitrackRigidBody("5_FOOT_LEFT", 5, &inputEmulator));
-	NatNetConnection::Get()->AddRigidBody(new OptitrackRigidBody("6_FOOT_RIGHT", 6, &inputEmulator));*/
+	NatNetConnection::Get()->AddRigidBody(new OptitrackRigidBody("6_FOOT_RIGHT", 6, &inputEmulator));
 
 
 
