@@ -78,17 +78,16 @@ void OptitrackRigidBody::ReceivedData(sFrameOfMocapData* data, void* pUserData)
 		if (device_is_ctrl) {
 			inputEmulator->setVirtualDeviceProperty(virtualId, vr::Prop_DeviceClass_Int32, (int32_t)vr::TrackedDeviceClass_Controller);
 			inputEmulator->setVirtualDeviceProperty(virtualId, vr::Prop_ControllerRoleHint_Int32, (int32_t)vr::TrackedControllerRole_Invalid);
+			inputEmulator->setVirtualDeviceProperty(virtualId, vr::Prop_InputProfileName_String, std::string("{htc}/input/vive_controller_profile.json"));
 		}
 		else {
 			std::cout << serial << std::endl;
 			inputEmulator->setVirtualDeviceProperty(virtualId, vr::Prop_DeviceClass_Int32, (int32_t)vr::TrackedDeviceClass_GenericTracker);
 			inputEmulator->setVirtualDeviceProperty(virtualId, vr::Prop_ControllerRoleHint_Int32, (int32_t)vr::TrackedControllerRole_Invalid);
+			inputEmulator->setVirtualDeviceProperty(virtualId, vr::Prop_InputProfileName_String, std::string("{htc}/input/vive_tracker_profile.json"));
 		}
 
 		if (rigidbody_id < 4) {
-
-			
-			//inputEmulator->setVirtualDeviceProperty(virtualId, vr::Prop_ControllerHandSelectionPriority_Int32, (int32_t)15-rigidbody_id);
 			
 			inputEmulator->setVirtualDeviceProperty(virtualId, vr::Prop_SupportedButtons_Uint64, (uint64_t)
 				vr::ButtonMaskFromId(vr::k_EButton_System) |
@@ -111,7 +110,7 @@ void OptitrackRigidBody::ReceivedData(sFrameOfMocapData* data, void* pUserData)
 		}
 		else {
 
-			inputEmulator->setVirtualDeviceProperty(virtualId, vr::Prop_RenderModelName_String, std::string("ref_controller"));
+			inputEmulator->setVirtualDeviceProperty(virtualId, vr::Prop_RenderModelName_String, std::string("{htc}/rendermodels/vr_tracker_vive_1_0"));
 
 			inputEmulator->setVirtualDeviceProperty(virtualId, vr::Prop_HardwareRevision_Uint64, (uint64_t)665);
 			inputEmulator->setVirtualDeviceProperty(virtualId, vr::Prop_FirmwareVersion_Uint64, (uint64_t)665);
