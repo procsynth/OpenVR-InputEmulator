@@ -7,11 +7,13 @@
 #include <vector>
 #include <mutex>
 
+#define BUFFER_SIZE 1000
+
 NatNetConnection* NatNetConnection::Instance = nullptr;
 
-NatNetConnection::NatNetConnection()
+NatNetConnection::NatNetConnection() : 
+	buffer(BUFFER_SIZE)
 {
-
 }
 
 NatNetConnection::~NatNetConnection()
@@ -118,7 +120,7 @@ int NatNetConnection::ConnectClient()
 sFrameOfMocapData NatNetConnection::Frame()
 {
 	mtx.lock();
-	sFrameOfMocapData copy = _Frame;
+	sFrameOfMocapData copy = buffer[0];
 	mtx.unlock();
 	return copy;
 }
@@ -140,6 +142,7 @@ void NatNetConnection::UpdateRigidBodies()
 void NatNetConnection::ReceivedData(sFrameOfMocapData* data, void* pUserData)
 {
 	mtx.lock();
-	this->_Frame = (*data);
+	//this->_Frame = (*data);
+	buffer.push_back(*data);
 	mtx.unlock();
 }
