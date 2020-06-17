@@ -88,7 +88,7 @@ void OptitrackRigidBody::ReceivedData(sFrameOfMocapData* data, void* pUserData)
 		if (device_is_ctrl) {
 
 			
-			inputEmulator->setVirtualDeviceProperty(virtualId, vr::Prop_ControllerHandSelectionPriority_Int32, (int32_t)15-rigidbody_id);
+			//inputEmulator->setVirtualDeviceProperty(virtualId, vr::Prop_ControllerHandSelectionPriority_Int32, (int32_t)15-rigidbody_id);
 			
 			inputEmulator->setVirtualDeviceProperty(virtualId, vr::Prop_SupportedButtons_Uint64, (uint64_t)
 				vr::ButtonMaskFromId(vr::k_EButton_System) |
@@ -107,7 +107,7 @@ void OptitrackRigidBody::ReceivedData(sFrameOfMocapData* data, void* pUserData)
 			inputEmulator->setVirtualDeviceProperty(virtualId, vr::Prop_FirmwareVersion_Uint64, (uint64_t)666);
 			inputEmulator->setVirtualDeviceProperty(virtualId, vr::Prop_ManufacturerName_String, std::string("Daruma"));
 			inputEmulator->setVirtualDeviceProperty(virtualId, vr::Prop_ModelNumber_String, std::string("OptiController"));
-			inputEmulator->setVirtualDeviceProperty(virtualId, vr::Prop_InputProfileName_String, std::string("{htc}/input/vive_controller_profile.json"));
+			//inputEmulator->setVirtualDeviceProperty(virtualId, vr::Prop_InputProfileName_String, std::string("{htc}/input/vive_controller_profile.json"));
 		}
 		else {
 
@@ -117,7 +117,7 @@ void OptitrackRigidBody::ReceivedData(sFrameOfMocapData* data, void* pUserData)
 			inputEmulator->setVirtualDeviceProperty(virtualId, vr::Prop_FirmwareVersion_Uint64, (uint64_t)665);
 			inputEmulator->setVirtualDeviceProperty(virtualId, vr::Prop_ManufacturerName_String, std::string("Daruma"));
 			inputEmulator->setVirtualDeviceProperty(virtualId, vr::Prop_ModelNumber_String, std::string("OptiTracker"));
-			inputEmulator->setVirtualDeviceProperty(virtualId, vr::Prop_InputProfileName_String, std::string("{htc}/input/vive_tracker_profile.json"));
+			//inputEmulator->setVirtualDeviceProperty(virtualId, vr::Prop_InputProfileName_String, std::string("{htc}/input/vive_tracker_profile.json"));
 		}
 
 
