@@ -78,13 +78,13 @@ void OptitrackRigidBody::ReceivedData(sFrameOfMocapData* data, void* pUserData)
 		if (device_is_ctrl) {
 			inputEmulator->setVirtualDeviceProperty(virtualId, vr::Prop_DeviceClass_Int32, (int32_t)vr::TrackedDeviceClass_Controller);
 			inputEmulator->setVirtualDeviceProperty(virtualId, vr::Prop_ControllerRoleHint_Int32, (int32_t)vr::TrackedControllerRole_Invalid);
-			inputEmulator->setVirtualDeviceProperty(virtualId, vr::Prop_InputProfileName_String, std::string("{htc}/input/vive_controller_profile.json"));
+			//inputEmulator->setVirtualDeviceProperty(virtualId, vr::Prop_InputProfileName_String, std::string("{htc}/input/vive_controller_profile.json"));
 		}
 		else {
 			std::cout << serial << std::endl;
 			inputEmulator->setVirtualDeviceProperty(virtualId, vr::Prop_DeviceClass_Int32, (int32_t)vr::TrackedDeviceClass_GenericTracker);
 			inputEmulator->setVirtualDeviceProperty(virtualId, vr::Prop_ControllerRoleHint_Int32, (int32_t)vr::TrackedControllerRole_Invalid);
-			inputEmulator->setVirtualDeviceProperty(virtualId, vr::Prop_InputProfileName_String, std::string("{htc}/input/vive_tracker_profile.json"));
+			//inputEmulator->setVirtualDeviceProperty(virtualId, vr::Prop_InputProfileName_String, std::string("{htc}/input/vive_tracker_profile.json"));
 		}
 
 		if (rigidbody_id < 4) {
