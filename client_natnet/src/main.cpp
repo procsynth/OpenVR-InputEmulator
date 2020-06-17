@@ -8,7 +8,7 @@
 
 int main(int argc, const char* argv[]) {
 
-	std::cout << "DaruTrack 9" << std::endl;
+	std::cout << "DaruTrack 10" << std::endl;
 
 
 	vr::EVRInitError peError;
@@ -30,14 +30,14 @@ int main(int argc, const char* argv[]) {
 	// Trex: 1ere connection à Motive
 	NatNetConnection::Get()->Init(/* server: */"127.0.0.1", /* client: */"127.0.0.1", ConnectionType_Multicast);
 
-	
-	NatNetConnection::Get()->AddRigidBody(new OptitrackRigidBody("2_LEFT", 2, &inputEmulator));
-	NatNetConnection::Get()->AddRigidBody(new OptitrackRigidBody("3_RIGHT", 3, &inputEmulator));
-
+	NatNetConnection::Get()->AddRigidBody(new OptitrackRigidBody("2_LEFT_HAND_opti", 2, &inputEmulator));
+	NatNetConnection::Get()->AddRigidBody(new OptitrackRigidBody("3_RIGHT_HAND_opti", 3, &inputEmulator));
+	/*
 	NatNetConnection::Get()->AddRigidBody(new OptitrackRigidBody("4_WAIST", 4, &inputEmulator));
-
 	NatNetConnection::Get()->AddRigidBody(new OptitrackRigidBody("5_FOOT_LEFT", 5, &inputEmulator));
-	NatNetConnection::Get()->AddRigidBody(new OptitrackRigidBody("6_FOOT_RIGHT", 6, &inputEmulator));
+	NatNetConnection::Get()->AddRigidBody(new OptitrackRigidBody("6_FOOT_RIGHT", 6, &inputEmulator));*/
+
+
 
 
 	vr::VREvent_t vrevent;
@@ -50,7 +50,7 @@ int main(int argc, const char* argv[]) {
 		}
 		else {
 			NatNetConnection::Get()->UpdateRigidBodies();
-			std::this_thread::sleep_for(std::chrono::milliseconds(10));
+			std::this_thread::sleep_for(std::chrono::milliseconds(16));
 		}
 	}
 

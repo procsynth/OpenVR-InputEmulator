@@ -1,6 +1,8 @@
 #include "IVRServerDriverHost004Hooks.h"
 
 #include "../driver/ServerDriver.h"
+#include <mutex>
+
 
 
 namespace vrinputemulator {
@@ -88,9 +90,16 @@ void IVRServerDriverHost004Hooks::_trackedDevicePoseUpdated(void* _this, uint32_
 	// Vive Controller: 369 calls/s each
 	//
 	// Time is key. If we assume 1 HMD and 13 controllers, we have a total of  ~6000 calls/s. That's about 166 microseconds per call at 100% load.
-	auto poseCopy = newPose;
-	if (serverDriver->hooksTrackedDevicePoseUpdated(_this, 4, unWhichDevice, poseCopy, unPoseStructSize)) {
-		trackedDevicePoseUpdatedHook.origFunc(_this, unWhichDevice, poseCopy, unPoseStructSize);
+	try
+	{
+     		auto poseCopy = newPose;
+		if (serverDriver->hooksTrackedDevicePoseUpdated(_this, 4, unWhichDevice, poseCopy, unPoseStructSize)) {
+			trackedDevicePoseUpdatedHook.origFunc(_this, unWhichDevice, poseCopy, unPoseStructSize);
+		}
+	}
+	catch (const std::exception&)
+	{
+		LOG(ERROR) << "Access violation, lost a pose";
 	}
 }
 

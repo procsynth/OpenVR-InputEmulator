@@ -23,6 +23,7 @@ public:
 private:
 	bool _isHooked = false;
 
+	static std::mutex mtx;
 	IVRServerDriverHost005Hooks(void* iptr);
 
 	static HookData<trackedDeviceAdded_t> trackedDeviceAddedHook;
