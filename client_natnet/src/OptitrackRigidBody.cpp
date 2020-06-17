@@ -85,7 +85,7 @@ void OptitrackRigidBody::ReceivedData(sFrameOfMocapData* data, void* pUserData)
 			inputEmulator->setVirtualDeviceProperty(virtualId, vr::Prop_ControllerRoleHint_Int32, (int32_t)vr::TrackedControllerRole_Invalid);
 		}
 
-		if (device_is_ctrl) {
+		if (rigidbody_id < 4) {
 
 			
 			//inputEmulator->setVirtualDeviceProperty(virtualId, vr::Prop_ControllerHandSelectionPriority_Int32, (int32_t)15-rigidbody_id);
@@ -126,7 +126,7 @@ void OptitrackRigidBody::ReceivedData(sFrameOfMocapData* data, void* pUserData)
 		readyFlag = true;
 	} 
 
-	if (device_is_ctrl) {
+	if (rigidbody_id < 4) {
 
 
 
