@@ -7,7 +7,7 @@
 #include <vector>
 #include <mutex>
 
-#define BUFFER_SIZE 1000
+#define BUFFER_SIZE 10
 
 NatNetConnection* NatNetConnection::Instance = nullptr;
 

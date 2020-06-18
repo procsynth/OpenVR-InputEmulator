@@ -10,6 +10,3 @@ client_overlay/x64/Debug/*
 *.exe
 *.ilk
 *.pdb
-*.exe
-*.ilk
-*.ilk
