@@ -120,6 +120,7 @@ int NatNetConnection::ConnectClient()
 sFrameOfMocapData NatNetConnection::Frame()
 {
 	mtx.lock();
+	//sFrameOfMocapData copy = _Frame;
 	sFrameOfMocapData copy = buffer[0];
 	mtx.unlock();
 	return copy;
@@ -143,6 +144,11 @@ void NatNetConnection::ReceivedData(sFrameOfMocapData* data, void* pUserData)
 {
 	mtx.lock();
 	//this->_Frame = (*data);
+	int size = 1;
+	for (int i = 0; i < data->nRigidBodies; i++)
+		size = std::max(data->RigidBodies[i].ID, size);
+	if (size != buffer.size())
+		buffer.resize(size);
 	buffer.push_back(*data);
 	mtx.unlock();
 }
