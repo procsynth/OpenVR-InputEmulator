@@ -11,6 +11,7 @@
 #include <NatNetCAPI.h>
 #include <NatNetClient.h>
 #include <mutex>
+#include <boost/circular_buffer.hpp>
 #include "OptitrackRigidBody.h"
 
 void NATNET_CALLCONV MessageHandler(Verbosity msgType, const char* msg);
@@ -37,6 +38,7 @@ protected:
 	int g_analogSamplesPerMocapFrame = 0;
 	sServerDescription g_serverDescription;
 	sFrameOfMocapData _Frame;
+	boost::circular_buffer<sFrameOfMocapData> buffer;
 
 public:
 	sFrameOfMocapData Frame();
