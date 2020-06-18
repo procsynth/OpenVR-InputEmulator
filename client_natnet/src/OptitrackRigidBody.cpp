@@ -142,6 +142,32 @@ void OptitrackRigidBody::ReceivedData(sFrameOfMocapData* data, void* pUserData)
 				state.ulButtonTouched &= ~vr::ButtonMaskFromId(vr::k_EButton_Axis1);
 			}
 		}
+		
+		if (rigidbody_id == 2) {
+			if (GetAsyncKeyState(84 /* t */) != 0) {
+				std::cout << "tp" << std::endl << std::endl;
+				state.rAxis[1] = { 0.0f, 1.0f };
+				state.ulButtonPressed |= vr::ButtonMaskFromId(vr::k_EButton_Axis0);
+				state.ulButtonTouched |= vr::ButtonMaskFromId(vr::k_EButton_Axis0);
+			}
+			else {
+				state.rAxis[1] = { 0.0f, 0.0f };
+				state.ulButtonPressed &= ~vr::ButtonMaskFromId(vr::k_EButton_Axis0);
+				state.ulButtonTouched &= ~vr::ButtonMaskFromId(vr::k_EButton_Axis0);
+			}
+
+			if (GetAsyncKeyState(84 /* t */) != 0) {
+				std::cout << "tp" << std::endl << std::endl;
+				state.rAxis[1] = { 0.0f, 1.0f };
+				state.ulButtonPressed |= vr::ButtonMaskFromId(vr::k_EButton_Axis0);
+				state.ulButtonTouched |= vr::ButtonMaskFromId(vr::k_EButton_Axis0);
+			}
+			else {
+				state.rAxis[1] = { 0.0f, 0.0f };
+				state.ulButtonPressed &= ~vr::ButtonMaskFromId(vr::k_EButton_Axis0);
+				state.ulButtonTouched &= ~vr::ButtonMaskFromId(vr::k_EButton_Axis0);
+			}
+		}
 
 		if (rigidbody_id == 3) {
 			if (GetAsyncKeyState(72 /* h */) != 0) {

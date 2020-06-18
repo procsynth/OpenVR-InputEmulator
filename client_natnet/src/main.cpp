@@ -29,6 +29,7 @@ int main(int argc, const char* argv[]) {
 
 	// Trex: 1ere connection à Motive
 	NatNetConnection::Get()->Init(/* server: */"192.168.1.136", /* client: */"192.168.1.139", ConnectionType_Multicast);
+	//NatNetConnection::Get()->Init(/* server: */"127.0.0.1", /* client: */"127.0.0.1", ConnectionType_Multicast);
 
 	NatNetConnection::Get()->AddRigidBody(new OptitrackRigidBody("2_LEFT_HAND_opti", 2, &inputEmulator));
 	NatNetConnection::Get()->AddRigidBody(new OptitrackRigidBody("3_RIGHT_HAND_opti", 3, &inputEmulator));
